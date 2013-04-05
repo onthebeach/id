@@ -14,6 +14,12 @@ module Id
       self.class.new(data.except(*keys.map(&:to_s)))
     end
 
+    def fetch_field(*args, &block)
+      data.fetch(*args, &block)
+    rescue KeyError => e
+      raise Id::MissingAttributeError, e
+    end
+
     private
 
     def self.included(base)
