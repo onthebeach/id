@@ -9,11 +9,10 @@ class TestModel
   include Id::Model
 
   field :foo
-  field :bar, key: 'baz'
   field :quux, default: 'kwak'
 
   has_one :aliased_model, type: NestedModel
-  has_one :nested_model, key: 'aliased_model'
+  has_one :nested_model
   has_one :extra_nested_model
   has_one :test_model
   has_many :nested_models
@@ -26,9 +25,9 @@ end
 
 describe Id::Model do
   let (:model) { TestModel.new(foo: 3,
-                               baz: 6,
                                test_model: {},
-                               aliased_model: { 'yak' => 11},
+                               aliased_model: {},
+                               nested_model: {yak: 11},
                                nested_models: [{ 'yak' => 11}, { yak: 14 }],
                                extra_nested_model: { cats!: "MIAOW" }) }
 
@@ -43,10 +42,6 @@ describe Id::Model do
   describe ".field" do
     it 'defines an accessor on the model' do
       model.foo.should eq 3
-    end
-
-    it 'allows key aliases' do
-      model.bar.should eq 6
     end
 
     it 'allows default values' do

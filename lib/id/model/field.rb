@@ -25,7 +25,7 @@ module Id
       end
 
       def key
-        options.fetch(:key, name).to_s
+        name.to_s
       end
 
       def default
