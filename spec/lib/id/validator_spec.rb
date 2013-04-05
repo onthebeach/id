@@ -43,6 +43,17 @@ module Id
         expect(ValidatedModel.new(foo: 1).valid?).to be_false
       end
     end
+
+    describe "#validation_errors" do
+      it "returns an array of validation errors" do
+        expect(ValidatedModel.new({}).validation_errors).to be_a Array
+        expect(ValidatedModel.new({}).validation_errors).not_to be_empty
+        expect(ValidatedModel.new({}).validation_errors.size).to eq(3)
+      end
+      it "returns an array with objects that has error_message in it" do
+        expect(ValidatedModel.new({}).validation_errors.map(&:error_message)).to be_a Array
+      end
+    end
   end
 end
 

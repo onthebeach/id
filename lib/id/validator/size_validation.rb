@@ -9,8 +9,8 @@ module Id
       end
 
       def valid?(model)
-        f = model.fetch_field(field.to_s, "")
-        f.is_a?(Numeric) || f.size < size
+        f = model.fetch_field(field.to_s, nil)
+        f.size < size rescue false
       end
 
       def error_message
