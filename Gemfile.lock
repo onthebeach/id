@@ -3,20 +3,18 @@ PATH
   specs:
     id (0.0.6)
       activesupport
+      optional
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.2.13)
-      activesupport (= 3.2.13)
-      builder (~> 3.0.0)
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
-    builder (3.0.4)
     diff-lcs (1.2.1)
     i18n (0.6.1)
     multi_json (1.7.2)
+    optional (0.0.1)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -34,7 +32,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel
   id!
   rspec
   simplecov

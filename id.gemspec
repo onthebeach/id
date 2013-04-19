@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.homepage      = 'http://github.com/onthebeach/id'
 
+  s.add_dependency "optional"
   s.add_dependency "activesupport"
 
   s.add_development_dependency "rspec"
