@@ -14,7 +14,7 @@ GEM
     diff-lcs (1.2.1)
     i18n (0.6.1)
     multi_json (1.7.2)
-    optional (0.0.1)
+    optional (0.0.3)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
