@@ -37,11 +37,18 @@ module Id
       end
 
       def default_value
-        proc { optional? ? nil : (default or raise MissingAttributeError) }
+        proc do
+          if default? then default
+          elsif !optional? then raise MissingAttributeError end
+        end
+      end
+
+      def default?
+        options.has_key?(:default)
       end
 
       def default
-        options.fetch(:default, nil)
+        options.fetch(:default)
       end
 
       def optional?

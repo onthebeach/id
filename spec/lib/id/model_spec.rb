@@ -17,7 +17,7 @@ class TestModel
   field :foo
   field :bar, key: 'baz'
   field :qux, optional: true
-  field :quux, default: 'kwak'
+  field :quux, default: false
   compound_field :corge, {plugh: 'foo', thud: 'quux'}, type: CompboundElementModel
 
   has_one :aliased_model, type: NestedModel
@@ -58,7 +58,7 @@ describe Id::Model do
     end
 
     it 'allows default values' do
-      model.quux.should eq 'kwak'
+      model.quux.should be_false
     end
 
     describe "optional flag" do
@@ -79,7 +79,7 @@ describe Id::Model do
     end
 
     it 'deals with default values' do
-      model.corge.thud.should eq 'kwak'
+      model.corge.thud.should be_false
     end
   end
 
