@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage      = 'http://github.com/onthebeach/id'
 
   s.add_dependency "optional"
+  s.add_dependency "money"
   s.add_dependency "activesupport"
 
   s.add_development_dependency "rspec"

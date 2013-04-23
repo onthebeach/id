@@ -3,18 +3,21 @@ PATH
   specs:
     id (0.0.6)
       activesupport
+      money
       optional
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
+    activesupport (3.2.12)
+      i18n (~> 0.6)
       multi_json (~> 1.0)
     diff-lcs (1.2.1)
-    i18n (0.6.1)
+    i18n (0.6.4)
+    money (5.1.1)
+      i18n (~> 0.6.0)
     multi_json (1.7.2)
-    optional (0.0.1)
+    optional (0.0.3)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)

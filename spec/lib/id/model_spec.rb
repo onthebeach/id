@@ -18,6 +18,9 @@ class TestModel
   field :bar, key: 'baz'
   field :qux, optional: true
   field :quux, default: false
+  field :date_of_birth, type: Date
+  field :christmas, default: Date.new(2014,12,25), type: Date
+
   compound_field :corge, {plugh: 'foo', thud: 'quux'}, type: CompboundElementModel
 
   has_one :aliased_model, type: NestedModel
@@ -28,7 +31,7 @@ class TestModel
 
   class ExtraNestedModel
     include Id::Model
-    field :cats!
+    field :cats
   end
 end
 
@@ -36,9 +39,10 @@ describe Id::Model do
   let (:model) { TestModel.new(foo: 3,
                                baz: 6,
                                test_model: {},
+                               date_of_birth: '06-06-1983',
                                aliased_model: { 'yak' => 11},
                                nested_models: [{ 'yak' => 11}, { yak: 14 }],
-                               extra_nested_model: { cats!: "MIAOW" }) }
+                               extra_nested_model: { cats: "MIAOW" }) }
 
 
   describe ".new" do
@@ -71,6 +75,13 @@ describe Id::Model do
       end
     end
 
+    describe "typecast option" do
+      it 'typecasts to the provided type if a cast exists' do
+        model.date_of_birth.should be_a Date
+        model.christmas.should be_a Date
+      end
+    end
+
   end
 
   describe ".compound_field" do
@@ -93,7 +104,7 @@ describe Id::Model do
     end
     it "allows associations to be nested within the class" do
       model.extra_nested_model.should be_a TestModel::ExtraNestedModel
-      model.extra_nested_model.cats!.should eq 'MIAOW'
+      model.extra_nested_model.cats.should eq 'MIAOW'
     end
     it "allows recursively defined models" do
       model.test_model.should be_a TestModel

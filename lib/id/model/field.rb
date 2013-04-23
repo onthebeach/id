@@ -11,7 +11,9 @@ module Id
       def define_getter
         field = self
         model.send :define_method, name do
-          data.fetch(field.key, &field.default_value)
+          memoize field.name do
+            field.cast data.fetch(field.key, &field.default_value)
+          end
         end
       end
 
@@ -30,6 +32,10 @@ module Id
         define_getter
         define_setter
         define_is_present
+      end
+
+      def cast(value)
+        TypeCasts.cast(options.fetch(:type, false), value)
       end
 
       def key
