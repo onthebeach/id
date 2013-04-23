@@ -18,7 +18,8 @@ class TestModel
   field :bar, key: 'baz'
   field :qux, optional: true
   field :quux, default: false
-  field :date_of_birth, type: Date
+  field :date_of_birth, optional: true, type: Date
+  field :empty_date, optional: true, type: Date
   field :christmas, default: Date.new(2014,12,25), type: Date
   field :quxx, optional: true
 
@@ -84,8 +85,12 @@ describe Id::Model do
 
     describe "typecast option" do
       it 'typecasts to the provided type if a cast exists' do
-        model.date_of_birth.should be_a Date
+        model.date_of_birth.should be_some Date
         model.christmas.should be_a Date
+      end
+
+      it 'should work for empty optional fields' do
+        model.empty_date.should be_none
       end
     end
 

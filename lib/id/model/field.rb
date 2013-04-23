@@ -68,10 +68,12 @@ module Id
       def define_getter
         field = self
         model.send :define_method, name do
-          if d = data.fetch(field.key, &field.default_value)
-            Some[d]
-          else
-            None
+          memoize field.name do
+            if d = data.fetch(field.key, &field.default_value)
+              Some[field.cast d]
+            else
+              None
+            end
           end
         end
       end
