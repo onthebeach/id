@@ -64,5 +64,17 @@ module Id
       attr_reader :model, :name, :options
     end
 
+    class FieldOption < Field
+      def define_getter
+        field = self
+        model.send :define_method, name do
+          if d = data.fetch(field.key, &field.default_value)
+            Some[d]
+          else
+            None
+          end
+        end
+      end
+    end
   end
 end

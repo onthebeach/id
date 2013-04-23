@@ -20,6 +20,7 @@ class TestModel
   field :quux, default: false
   field :date_of_birth, type: Date
   field :christmas, default: Date.new(2014,12,25), type: Date
+  field :quxx, optional: true
 
   compound_field :corge, {plugh: 'foo', thud: 'quux'}, type: CompboundElementModel
 
@@ -38,6 +39,7 @@ end
 describe Id::Model do
   let (:model) { TestModel.new(foo: 3,
                                baz: 6,
+                               quxx: 8,
                                test_model: {},
                                date_of_birth: '06-06-1983',
                                aliased_model: { 'yak' => 11},
@@ -66,12 +68,17 @@ describe Id::Model do
     end
 
     describe "optional flag" do
-      it 'allows optional' do
-        model.qux.should be_nil
-      end
+      context 'when field is not in hash' do
+        it 'is None' do
+          expect(model.qux).to eq None
+        end
 
-      it 'should not raise an error' do
-        expect{model.qux}.not_to raise_error Id::MissingAttributeError
+      end
+      context 'when field is in hash' do
+        it 'is Some' do
+          expect(model.quxx).to eq Some[8]
+        end
+
       end
     end
 
