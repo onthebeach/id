@@ -141,7 +141,7 @@ describe Id::Model do
 
   describe "#unset" do
     it 'returns a new basket minus the passed key' do
-      expect { model.set(foo: 999, bar: 555).unset(:foo, :bar).foo }.to raise_error Id::MissingAttributeError
+      expect { model.set(foo: 999, bar: 555).unset(:foo, :bar).foo }.to raise_error Id::MissingAttributeError, "foo"
     end
 
     it 'does not error if the key to be removed does not exist' do
