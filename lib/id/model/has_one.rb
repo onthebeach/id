@@ -6,7 +6,7 @@ module Id
         field = self
         model.send :define_method, name do
           memoize field.name do
-            child = data.fetch(field.key) { raise MissingAttributeError }
+            child = data.fetch(field.key) { raise MissingAttributeError, field.key }
             field.type.new(child) unless child.nil?
           end
         end

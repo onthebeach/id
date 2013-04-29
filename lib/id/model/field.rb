@@ -45,7 +45,7 @@ module Id
       def default_value
         proc do
           if default? then default
-          elsif !optional? then raise MissingAttributeError end
+          elsif !optional? then raise MissingAttributeError, key end
         end
       end
 
