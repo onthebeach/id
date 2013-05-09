@@ -2,7 +2,7 @@ module Id
   module Model
     attr_reader :data
 
-    def initialize(data)
+    def initialize(data = {})
       @data = Hashifier.hashify(data)
     end
 
