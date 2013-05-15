@@ -170,4 +170,20 @@ describe Id::Model do
       one.should_not eq two
     end
   end
+
+  describe "#hash" do
+    it 'allows id models to be used as hash keys' do
+      one = TestModel.new(foo: 1)
+      two = TestModel.new(foo: 1)
+      hash = { one => :found }
+      hash[two].should eq :found
+    end
+    it 'they are different keys if the data is different' do
+      one = TestModel.new(foo: 1)
+      two = TestModel.new(foo: 2)
+      hash = { one => :found }
+      hash[two].should be_nil
+      hash[one].should eq :found
+    end
+  end
 end

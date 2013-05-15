@@ -14,8 +14,13 @@ module Id
       self.class.new(data.except(*keys.map(&:to_s)))
     end
 
-    def == other
-      other.is_a?(Id::Model) && other.data == self.data
+    def eql? other
+      other.is_a?(Id::Model) && other.data.eql?(self.data)
+    end
+    alias_method :==, :eql?
+
+    def hash
+      data.hash
     end
 
     private
