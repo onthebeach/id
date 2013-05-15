@@ -14,6 +14,10 @@ module Id
       self.class.new(data.except(*keys.map(&:to_s)))
     end
 
+    def == other
+      other.is_a?(Id::Model) && other.data == self.data
+    end
+
     private
 
     def self.included(base)

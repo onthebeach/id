@@ -157,4 +157,17 @@ describe Id::Model do
     end
   end
 
+  describe "#==" do
+    it 'is equal to another id model with the same data' do
+      one = TestModel.new(foo: 1)
+      two = TestModel.new(foo: 1)
+      one.should eq two
+    end
+
+    it 'is not equal to two models with different data' do
+      one = TestModel.new(foo: 1)
+      two = TestModel.new(foo: 2)
+      one.should_not eq two
+    end
+  end
 end
