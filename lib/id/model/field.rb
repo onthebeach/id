@@ -17,11 +17,20 @@ module Id
         end
       end
 
+      def define_optional_getter
+        field = self
+        model.send :define_method, "#{name}_as_option" do
+          memoize field.name do
+            Option[data[field.key]].map { |v| field.cast v }
+          end
+        end
+      end
+
       def define_setter
         model.send(:builder_class).define_setter name
       end
 
-      def define_is_present
+      def define_presence_checker
         field = self
         model.send :define_method, "#{name}?" do
           data.has_key?(field.key) && !data.fetch(field.key).nil?
@@ -30,8 +39,9 @@ module Id
 
       def define
         define_getter
+        define_optional_getter
         define_setter
-        define_is_present
+        define_presence_checker
       end
 
       def cast(value)

@@ -157,6 +157,20 @@ describe Id::Model do
     end
   end
 
+  describe "#..as_option" do
+
+    it 'allows you to get any field as an option' do
+      model = TestModel.new
+      model.foo_as_option.should eq None
+    end
+
+    it 'also works if the field is set' do
+      model = TestModel.new(foo: 123)
+      model.foo_as_option.should eq Some[123]
+    end
+
+  end
+
   describe "#==" do
     it 'is equal to another id model with the same data' do
       one = TestModel.new(foo: 1)
