@@ -3,26 +3,29 @@ module Id
     module Validations
       class Presence
 
-        def initialize(fields, options={})
-          @fields = fields
+        def initialize(field, options)
+          @field = field
+          @options = options
         end
 
         def errors(model)
-          fields.select { |f| model.send("#{f}_as_option").none? }.map do |f|
-            options.fetch(:message, "Required field '#{f}' is not set")
+          if model.send("#{field}_as_option").none?
+            [options.fetch(:message, "Required field '#{field}' is not set")]
+          else
+            []
           end
         end
 
         private
 
-        attr_reader :fields
+        attr_reader :field, :options
       end
 
     end
 
     module Validator
-      def validates_presence_of *fields
-        validations << Validations::Presence.new(fields)
+      def validates_presence_of(field, options = {})
+        validations << Validations::Presence.new(field, options)
       end
     end
 

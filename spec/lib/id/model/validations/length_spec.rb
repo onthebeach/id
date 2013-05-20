@@ -13,7 +13,7 @@ module Id
           field :baz
 
           validates_length_of :foo, minimum: 5
-          validates_length_of :bar, maximum: 5
+          validates_length_of :bar, maximum: 5, message: 'bar must be shorter than 5'
           validates_length_of :baz, minimum: 3, maximum: 5
         }}
 
@@ -28,7 +28,7 @@ module Id
         end
 
         it 'is not valid if the field is greater than the maximum' do
-          model.set(bar: 'catatat').errors.should include "Field 'bar' has length greater than the maximum of 5"
+          model.set(bar: 'catatat').errors.should include "bar must be shorter than 5"
         end
 
         it 'is valid if all the length constraints are met' do

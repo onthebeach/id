@@ -10,8 +10,11 @@ module Id
 
           field :foo
           field :bar
+          field :baz
 
-          validates_presence_of :foo, :bar
+          validates_presence_of :foo
+          validates_presence_of :bar
+          validates_presence_of :baz, message: 'baz must be set'
         }}
 
         let (:model) { test_class.new }
@@ -23,16 +26,17 @@ module Id
         it 'adds an error message for each invalid field' do
           model.errors.should eq [
             "Required field 'foo' is not set",
-            "Required field 'bar' is not set"
+            "Required field 'bar' is not set",
+            "baz must be set"
           ]
         end
 
         it 'is valid if all required fields are set' do
-          model.set(foo: 1, bar: 2).should be_valid
+          model.set(foo: 1, bar: 2, baz: 3).should be_valid
         end
 
         it 'creates no errors if all required fields are set' do
-          model.set(foo: 1, bar: 2).errors.should be_empty
+          model.set(foo: 1, bar: 2, baz: 3).errors.should be_empty
         end
       end
     end

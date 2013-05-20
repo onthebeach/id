@@ -12,7 +12,7 @@ module Id
           field :bar
 
           validates_date :foo, past: true
-          validates_date :bar, future: true
+          validates_date :bar, future: true, message: 'bar must be in the future'
         }}
 
         let (:model) { test_class.new }
@@ -26,7 +26,7 @@ module Id
         end
 
         it 'can validate that dates are in the future' do
-          model.set(bar: 1.day.ago).errors.should include "Field 'bar' is in the past"
+          model.set(bar: 1.day.ago).errors.should include "bar must be in the future"
         end
 
         it 'is valid if all dates obey constraints' do
