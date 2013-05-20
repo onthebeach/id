@@ -14,7 +14,11 @@ module Id
 
         private
 
-        attr_reader :block, :options
+        def block
+          @block.is_a?(Symbol) ? ->(model){ model.send(@block) } : @block
+        end
+
+        attr_reader :options
       end
     end
 

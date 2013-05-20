@@ -12,6 +12,11 @@ module Id
           field :bar
 
           validates ->(m){ m.foo == 4 }, message: 'foo must be 4'
+          validates :bazzy
+
+          def bazzy
+            foo == 4
+          end
 
         }}
 
@@ -19,7 +24,7 @@ module Id
 
         it 'is not valid if the block returns false' do
           model.set(foo: 2).should_not be_valid
-          model.set(foo: 2).errors.should eq ["foo must be 4"]
+          model.set(foo: 2).errors.should eq ["foo must be 4", "Custom validation failed"]
         end
 
         it 'is valid if the block returns true' do
