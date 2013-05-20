@@ -3,35 +3,45 @@ module Id
     module Validations
       class Length
 
-        def initialize(field, constraints)
+        def initialize(field, options)
           @field = field
-          @constraints = constraints
+          @options = options
         end
 
         def errors(model)
           model.send("#{field}_as_option").map do |value|
-            constraints.flat_map do |constraint, bound|
-              if constraint == :minimum && value.length < bound
-                ["Field '#{field}' has length smaller than the minimum of #{bound}"]
-              elsif constraint == :maximum && value.length > bound
-                ["Field '#{field}' has length greater than the maximum of #{bound}"]
-              else
-                []
-              end
-            end
+            if    less_than_min? value then [minimum_error]
+            elsif more_than_max? value then [maximum_error]
+            else  [] end
           end.value_or ["Field '#{field}', with length restriction, is not set"]
         end
 
         private
 
-        attr_reader :field, :constraints
+        def less_than_min? value
+          options[:minimum] && value.length < options[:minimum]
+        end
+
+        def more_than_max? value
+          options[:maximum] && value.length > options[:maximum]
+        end
+
+        def minimum_error
+          options.fetch(:message, "Field '#{field}' has length smaller than the minimum of #{options[:minimum]}")
+        end
+
+        def maximum_error
+          options.fetch(:message, "Field '#{field}' has length greater than the maximum of #{options[:maximum]}")
+        end
+
+        attr_reader :field, :options
       end
     end
 
     module Validator
 
-      def validates_length_of field, constraints
-        validations << Validations::Length.new(field, constraints)
+      def validates_length_of field, options
+        validations << Validations::Length.new(field, options)
       end
     end
   end

@@ -3,13 +3,13 @@ module Id
     module Validations
       class Presence
 
-        def initialize(fields)
+        def initialize(fields, options={})
           @fields = fields
         end
 
         def errors(model)
           fields.select { |f| model.send("#{f}_as_option").none? }.map do |f|
-            "Required field '#{f}' is not set"
+            options.fetch(:message, "Required field '#{f}' is not set")
           end
         end
 

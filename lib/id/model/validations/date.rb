@@ -3,26 +3,30 @@ module Id
     module Validations
       class Date
 
-        def initialize(field, constraints)
+        def initialize(field, options)
           @field = field
-          @constraints = constraints
+          @options = options
         end
 
         def errors(model)
           model.send("#{field}_as_option").map do |value|
-            if constraints[:past] && value.future?
-              ["Field '#{field}' is in the future"]
-            elsif constraints[:future] && value.past?
-              ["Field '#{field}' is in the past"]
-            else
-              []
-            end
+            if    options[:past] && value.future? then [future_error]
+            elsif options[:future] && value.past? then [past_error]
+            else  [] end
           end.value_or ["Field '#{field}', with date restriction, is not set"]
         end
 
         private
 
-        attr_reader :field, :constraints
+        def past_error
+          options.fetch(:message, "Field '#{field}' is in the past")
+        end
+
+        def future_error
+          options.fetch(:message, "Field '#{field}' is in the future")
+        end
+
+        attr_reader :field, :options
 
       end
     end
