@@ -20,7 +20,7 @@ module Id
       def define_optional_getter
         field = self
         model.send :define_method, "#{name}_as_option" do
-          memoize field.name do
+          memoize "#{field.name}_as_option" do
             Option[data[field.key]].map { |v| field.cast v }
           end
         end
