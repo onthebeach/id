@@ -31,6 +31,10 @@ module Id
           model.set(bar: 'catatat').errors.should include "Field 'bar' has length greater than the maximum of 5"
         end
 
+        it 'is valid if all the length constraints are met' do
+          model.set(foo: 'abcde', bar: 'abc', baz: 'abcd').should be_valid
+        end
+
       end
     end
   end
