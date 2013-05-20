@@ -200,4 +200,11 @@ describe Id::Model do
       hash[one].should eq :found
     end
   end
+
+  describe "#valid?" do
+    it 'defines a valid? method' do
+      one = TestModel.new
+      one.should be_valid
+    end
+  end
 end

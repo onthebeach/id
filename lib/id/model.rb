@@ -23,14 +23,33 @@ module Id
       data.hash
     end
 
+    def valid?
+      errors.empty?
+    end
+
+    def errors
+      @errors ||= validations.flat_map { |validation| validation.errors(self) }
+    end
+
     private
+
+    def validations
+      self.class.validations
+    end
 
     def self.included(base)
       base.extend(Descriptor)
+      base.extend(Validator)
     end
 
     def memoize(f, &b)
       instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call)
+    end
+
+    module Validator
+      def validations
+        @validations ||= []
+      end
     end
 
     module Descriptor
