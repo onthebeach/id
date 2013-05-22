@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/rsslldnphy/optional
+  revision: e46bbe29e6702ed6f456b48b5580d242bd6fd060
+  branch: feature/values-not-enumerable
+  specs:
+    optional (0.0.5)
+
 PATH
   remote: .
   specs:
@@ -17,7 +24,6 @@ GEM
     money (5.1.1)
       i18n (~> 0.6.0)
     multi_json (1.7.2)
-    optional (0.0.5)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -36,5 +42,6 @@ PLATFORMS
 
 DEPENDENCIES
   id!
+  optional!
   rspec
   simplecov
