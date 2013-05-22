@@ -23,6 +23,10 @@ module Id
           model.should_not be_valid
         end
 
+        it 'validates that the required fields are non-empty' do
+          model.set(foo: '').errors.should include "Required field 'foo' is not set"
+        end
+
         it 'adds an error message for each invalid field' do
           model.errors.should eq [
             "Required field 'foo' is not set",

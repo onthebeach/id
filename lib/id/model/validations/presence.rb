@@ -9,7 +9,7 @@ module Id
         end
 
         def errors(model)
-          if model.send("#{field}_as_option").none?
+          if model.send("#{field}_as_option").map(&:blank?).value_or true
             [options.fetch(:message, "Required field '#{field}' is not set")]
           else
             []
