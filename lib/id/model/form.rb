@@ -15,6 +15,10 @@ module Id
 
       private
 
+      def method_missing(name, *args, &block)
+        model.send(name, *args, &block)
+      end
+
       def memoize(f, &b)
         instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call)
       end

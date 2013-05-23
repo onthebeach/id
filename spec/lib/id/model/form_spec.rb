@@ -11,6 +11,10 @@ class Gerbil
     validates_length_of :name, maximum: 4
   end
 
+  def name_in_caps
+    name.upcase
+  end
+
 end
 
 module Id
@@ -32,6 +36,10 @@ module Id
         form.should_not be_valid
         form.name = 'Bert'
         form.should be_valid
+      end
+
+      it 'delegates to the model' do
+        form.name_in_caps.should eq 'BERTY'
       end
     end
   end
