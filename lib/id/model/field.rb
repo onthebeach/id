@@ -11,7 +11,9 @@ module Id
       def define_form_field
         field = self
         model.form_object.send :define_method, name do
-          model.send(field.name) if model.data.has_key? field.key
+          memoize field.name do
+            model.send(field.name) if model.data.has_key? field.key
+          end
         end
         model.form_object.send :attr_writer, name
       end

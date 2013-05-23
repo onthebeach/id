@@ -8,7 +8,7 @@ class Gerbil
 
   form do
     validates_presence_of :name
-    validates_size_of :paws, maximum: 4
+    validates_length_of :name, maximum: 4
   end
 
 end
@@ -26,6 +26,12 @@ module Id
 
       it 'has the same fields as the model' do
         form.name.should eq 'Berty'
+      end
+
+      it 'works with active model validations' do
+        form.should_not be_valid
+        form.name = 'Bert'
+        form.should be_valid
       end
     end
   end

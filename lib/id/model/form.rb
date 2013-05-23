@@ -15,6 +15,10 @@ module Id
 
       private
 
+      def memoize(f, &b)
+        instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call)
+      end
+
       attr_reader :model
     end
   end
