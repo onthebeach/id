@@ -186,4 +186,11 @@ describe Id::Model do
       hash[one].should eq :found
     end
   end
+
+  describe ".to_proc" do
+    it 'allows eta expansion of the class name to its constructor' do
+      [{foo: 1}].map(&TestModel).first.should be_a TestModel
+      [{foo: 1}].map(&TestModel).first.foo.should eq 1
+    end
+  end
 end

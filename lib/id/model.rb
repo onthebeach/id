@@ -55,6 +55,10 @@ module Id
         builder_class.new(self)
       end
 
+      def to_proc
+        ->(data) { new data }
+      end
+
       private
 
       def builder_class
