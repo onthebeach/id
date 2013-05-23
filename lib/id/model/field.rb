@@ -8,6 +8,14 @@ module Id
         @options = options
       end
 
+      def define_form_field
+        field = self
+        model.form_object.send :define_method, name do
+          model.send(field.name) if model.data.has_key? field.key
+        end
+        model.form_object.send :attr_writer, name
+      end
+
       def define_getter
         field = self
         model.send :define_method, name do
@@ -32,6 +40,7 @@ module Id
         define_getter
         define_setter
         define_is_present
+        define_form_field
       end
 
       def cast(value)
@@ -69,10 +78,8 @@ module Id
         field = self
         model.send :define_method, name do
           memoize field.name do
-            if d = data.fetch(field.key, &field.default_value)
-              Some[field.cast d]
-            else
-              None
+            Option[data.fetch(field.key, &field.default_value)].map do |d|
+              field.cast d
             end
           end
         end
