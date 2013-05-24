@@ -23,8 +23,8 @@ module Id
       data.hash
     end
 
-    def to_model
-      self.class.form_object.new(self)
+    def as_form
+      @form_object ||= self.class.form_object.new(self)
     end
 
     private

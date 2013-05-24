@@ -22,11 +22,15 @@ module Id
     describe Form do
 
       let (:gerbil) { Gerbil.new(name: 'Berty') }
-      let (:form)   { gerbil.to_model }
+      let (:form)   { gerbil.as_form }
 
-      subject { gerbil.to_model }
+      subject { gerbil.as_form }
 
       it_behaves_like "ActiveModel"
+
+      it 'responds to to_model' do
+        subject.to_model.should eq subject
+      end
 
       it 'has the same fields as the model' do
         form.name.should eq 'Berty'

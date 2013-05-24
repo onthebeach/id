@@ -13,6 +13,10 @@ module Id
         false
       end
 
+      def to_model
+        self
+      end
+
       private
 
       def method_missing(name, *args, &block)
