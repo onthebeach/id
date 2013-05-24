@@ -28,6 +28,11 @@ module Id
 
       it_behaves_like "ActiveModel"
 
+      it 'is delegated to by the model for errors' do
+        gerbil.errors.should eq form.errors
+        gerbil.valid?.should eq form.valid?
+      end
+
       it 'responds to to_model' do
         subject.to_model.should eq subject
       end

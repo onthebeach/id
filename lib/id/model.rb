@@ -27,6 +27,14 @@ module Id
       @form_object ||= self.class.form_object.new(self)
     end
 
+    def errors
+      as_form.errors
+    end
+
+    def valid?
+      as_form.valid?
+    end
+
     private
 
     def self.included(base)
