@@ -58,3 +58,8 @@ Types are inferred from the association name unless one is specified.
 You can even set fields on nested models in this way:
 
     person.hat.set(color: 'red') # => returns a new person object with a new hat object with its color set to red
+
+#### Avoiding nils
+
+`id` tries to avoid nils entirely, by using the Option pattern found in many functional programming languages and implemented [here](http://github.com/rsslldnphy/optional).
+Just mark optional fields as `optional: true` and their accessors will return either `Some[value]` or `None`.
