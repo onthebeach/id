@@ -186,4 +186,10 @@ describe Id::Model do
       hash[one].should eq :found
     end
   end
+
+  describe "#to_proc" do
+    it 'eta expands the model class into its constructor' do
+      [{},{}].map(&TestModel).all? { |m| m.is_a? TestModel }.should be_true
+    end
+  end
 end
