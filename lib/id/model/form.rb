@@ -5,6 +5,10 @@ module Id
       include ActiveModel::Conversion
       extend  ActiveModel::Naming
 
+      def self.i18n_scope
+        :id
+      end
+
       def initialize(model)
         @model = model
       end
