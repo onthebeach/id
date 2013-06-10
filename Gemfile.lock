@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    id (0.0.8)
+    id (0.0.9)
+      activemodel
       activesupport
       money
       optional
@@ -9,14 +10,19 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (3.2.12)
+      activesupport (= 3.2.12)
+      builder (~> 3.0.0)
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    builder (3.0.4)
     diff-lcs (1.2.1)
     i18n (0.6.4)
+    json (1.7.7)
     money (5.1.1)
       i18n (~> 0.6.0)
-    multi_json (1.7.2)
+    multi_json (1.7.3)
     optional (0.0.6)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
@@ -30,11 +36,14 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    test-unit (2.5.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   id!
+  json (~> 1.7.7)
   rspec
   simplecov
+  test-unit

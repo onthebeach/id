@@ -192,4 +192,5 @@ describe Id::Model do
       [{},{}].map(&TestModel).all? { |m| m.is_a? TestModel }.should be_true
     end
   end
+
 end
