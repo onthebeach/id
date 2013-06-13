@@ -193,4 +193,9 @@ describe Id::Model do
     end
   end
 
+  describe "#to_partial_path" do
+    it 'returns the class name as a partial path' do
+      TestModel.new.to_partial_path.should eq 'test_model'
+    end
+  end
 end

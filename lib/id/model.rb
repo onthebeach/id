@@ -35,6 +35,10 @@ module Id
       as_form.valid?
     end
 
+    def to_partial_path
+      self.class.name.underscore
+    end
+
     private
 
     def self.included(base)
