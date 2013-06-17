@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Id by onthebeach</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/onthebeach/id">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Id</h1>
+            <h2>Simple models based on hashes</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/onthebeach/id/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/onthebeach/id/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a name="id" class="anchor" href="#id"><span class="octicon octicon-link"></span></a>id</h1>
+
+<h3>
+<a name="simple-models-based-on-hashes" class="anchor" href="#simple-models-based-on-hashes"><span class="octicon octicon-link"></span></a>simple models based on hashes</h3>
+
+<p>JSON is a great way to transfer data between systems, and it's easy to parse into a Ruby hash. But sometimes it's nice to have actual methods to call when you want to get attributes from your data, rather than coupling your entire codebase to the hash representation by littering it with calls to <code>fetch</code> or <code>[]</code>. The same goes for BSON documents stored in Mongo.</p>
+
+<p>That's where <code>id</code> (as in Freud) comes in. You define your model classes using syntax that should look pretty familiar if you've used any popular Ruby ORMs - but <code>id</code> is not an ORM. Model objects defined with <code>id</code> have a constructor that accepts a hash, and you define the values of this hash that are made readable as fields - but that hash can come from any source.</p>
+
+<h4>
+<a name="defining-a-model" class="anchor" href="#defining-a-model"><span class="octicon octicon-link"></span></a>Defining a model</h4>
+
+<p>Defining a model looks like this:</p>
+
+<pre><code>class MyModel
+  include Id::Model
+
+  field :foo
+  field :bar, default: 42
+  field :baz, key: 'barry'
+
+end
+
+my_model = MyModel.new(foo: 7, barry: 'hello')
+my_model.foo # =&gt; 7
+my_model.bar # =&gt; 42
+my_model.baz # =&gt; 'hello'
+</code></pre>
+
+<p>As you can see, you can specify default values as well as key aliases.</p>
+
+<h4>
+<a name="associations" class="anchor" href="#associations"><span class="octicon octicon-link"></span></a>Associations</h4>
+
+<p>You can also specify has_one or has_many "associations" - what would be nested subdocuments in MongoDB for example - like this:</p>
+
+<pre><code>class Zoo
+  include Id::Model
+
+  has_many :lions
+  has_many :zebras
+  has_one :zookeeper, type: Person
+end
+
+zoo = Zoo.new(lions: [{name: 'Hetty'}],
+              zebras: [{name: 'Lisa'}],
+              zookeeper: {name: 'Russell' d})
+
+zoo.lions.first.class # =&gt; Lion
+zoo.lions.first.name  # =&gt; "Hetty"
+zoo.zookeeper.class   # =&gt; Person
+zoo.zookeeper.name    # =&gt; "Russell"
+</code></pre>
+
+<p>Types are inferred from the association name unless one is specified.</p>
+
+<h4>
+<a name="designed-for-immutability" class="anchor" href="#designed-for-immutability"><span class="octicon octicon-link"></span></a>Designed for immutability</h4>
+
+<p><code>id</code> models provide accessor methods, but no mutator methods, because they are designed for immutability. How do immutable models work? When you need to change some field of a model object, a new copy of the object is created with the field changed as required. This is handled for you by <code>id</code>'s <code>set</code> method:</p>
+
+<pre><code>person = Person.new(name: 'Russell', job: 'programmer')
+person.set(name: 'Radek') # =&gt; returns a new Person whose name is Radek and whose job is 'programmer'
+</code></pre>
+
+<p>You can even set fields on nested models in this way:</p>
+
+<pre><code>person.hat.set(color: 'red') # =&gt; returns a new person object with a new hat object with its color set to red
+</code></pre>
+
+<h4>
+<a name="avoiding-nils" class="anchor" href="#avoiding-nils"><span class="octicon octicon-link"></span></a>Avoiding nils</h4>
+
+<p><code>id</code> tries to avoid nils entirely, by using the Option pattern found in many functional programming languages and implemented <a href="http://github.com/rsslldnphy/optional">here</a>.
+Just mark optional fields as <code>optional: true</code> and their accessors will return either <code>Some[value]</code> or <code>None</code>.</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/onthebeach">onthebeach</a> can be found on <a href="https://github.com/onthebeach/id">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
