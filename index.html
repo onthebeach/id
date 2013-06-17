@@ -81,7 +81,7 @@ my_model.baz # =&gt; 'hello'
 <h4>
 <a name="associations" class="anchor" href="#associations"><span class="octicon octicon-link"></span></a>Associations</h4>
 
-<p>You can also specify has_one or has_many "associations" - what would be nested subdocuments in MongoDB for example - like this:</p>
+<p>You can specify has_one or has_many "associations" - what would be nested subdocuments in MongoDB for example - like this:</p>
 
 <pre><code>class Zoo
   include Id::Model
@@ -93,7 +93,7 @@ end
 
 zoo = Zoo.new(lions: [{name: 'Hetty'}],
               zebras: [{name: 'Lisa'}],
-              zookeeper: {name: 'Russell' d})
+              zookeeper: {name: 'Russell'})
 
 zoo.lions.first.class # =&gt; Lion
 zoo.lions.first.name  # =&gt; "Hetty"
@@ -104,12 +104,40 @@ zoo.zookeeper.name    # =&gt; "Russell"
 <p>Types are inferred from the association name unless one is specified.</p>
 
 <h4>
+<a name="compound-fields" class="anchor" href="#compound-fields"><span class="octicon octicon-link"></span></a>Compound Fields</h4>
+
+<p>It is sometimes useful to wrap some of the fields into another object. You can achieve this by using compound_field method like this:</p>
+
+<pre><code>class Address
+  include Id::Model
+
+  field :city
+  field :streeet
+end
+
+class Person
+  include Id::Model
+
+  field :name
+  field :city
+  field :strt
+
+  compound_field, :address, { city: "city", street: "strt" }, type: Address
+end
+
+person = Person.new(name: "Radek", city: "MCR", street: "King's Street")
+
+person.address.class # =&gt; Address
+person.address.street # =&gt; "King's Street"
+</code></pre>
+
+<h4>
 <a name="designed-for-immutability" class="anchor" href="#designed-for-immutability"><span class="octicon octicon-link"></span></a>Designed for immutability</h4>
 
 <p><code>id</code> models provide accessor methods, but no mutator methods, because they are designed for immutability. How do immutable models work? When you need to change some field of a model object, a new copy of the object is created with the field changed as required. This is handled for you by <code>id</code>'s <code>set</code> method:</p>
 
 <pre><code>person = Person.new(name: 'Russell', job: 'programmer')
-person.set(name: 'Radek') # =&gt; returns a new Person whose name is Radek and whose job is 'programmer'
+person.set(name: 'Radek') # =&gt; returns a new Person whose name is Radek  and whose job is 'programmer'
 </code></pre>
 
 <p>You can even set fields on nested models in this way:</p>
@@ -122,6 +150,27 @@ person.set(name: 'Radek') # =&gt; returns a new Person whose name is Radek and w
 
 <p><code>id</code> tries to avoid nils entirely, by using the Option pattern found in many functional programming languages and implemented <a href="http://github.com/rsslldnphy/optional">here</a>.
 Just mark optional fields as <code>optional: true</code> and their accessors will return either <code>Some[value]</code> or <code>None</code>.</p>
+
+<h2>
+<a name="method-reference" class="anchor" href="#method-reference"><span class="octicon octicon-link"></span></a>Method Reference</h2>
+
+<h3>
+<a name="class-methods" class="anchor" href="#class-methods"><span class="octicon octicon-link"></span></a>class methods</h3>
+
+<h4>
+<a name="fieldfield_name-options" class="anchor" href="#fieldfield_name-options"><span class="octicon octicon-link"></span></a>field(field_name, options={})</h4>
+
+<p>create an access method on Id object instance</p>
+
+<h5>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>options</h5>
+
+<ul>
+<li>
+<em>key</em>: fetch <em>key</em> instead of field_name from data hash</li>
+<li>
+<em>default</em>: use this default when can't fetch the actual value</li>
+</ul>
       </section>
 
       <footer>
