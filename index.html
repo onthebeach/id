@@ -169,8 +169,29 @@ Just mark optional fields as <code>optional: true</code> and their accessors wil
 <li>
 <em>key</em>: fetch <em>key</em> instead of field_name from data hash</li>
 <li>
-<em>default</em>: use this default when can't fetch the actual value</li>
-</ul>
+<em>default</em>: set the default value</li>
+<li>
+<em>optional</em>: if set to true - don't rise errors if the value is nil, return None if value is not nil return Some[value]</li>
+<li>
+<em>type</em>: typecast the value (by default the values can be typecasted to: Money, Date, Time)</li>
+</ul><p>Examples:</p>
+
+<pre><code>class Foo
+  include Id::Model
+  field :bar, default: "baz", key: "qux"
+  field :zyzzybalubah, optional: true
+  field :corge, type: Date
+end
+
+foo = Foo.new()
+foo.bar # =&gt; "baz"
+foo.zyzzybalubah # =&gt; None
+foo = Foo.new(qux: "quxx", zyzzybalubah: "Russell", corge: "1 Jan 2012")
+foo.bar # =&gt; "quxx"
+foo.zyzzybalubah # =&gt; Some["Russell"]
+foo.corge.year # =&gt; 2012
+foo.corge.class # =&gt; Date
+</code></pre>
       </section>
 
       <footer>
