@@ -174,7 +174,7 @@ Just mark optional fields as <code>optional: true</code> and their accessors wil
 <em>optional</em>: if set to true - don't rise errors if the value is nil, return None if value is not nil return Some[value]</li>
 <li>
 <em>type</em>: typecast the value (by default the values can be typecasted to: Money, Date, Time)</li>
-</ul><p>Examples:</p>
+</ul><p>Example:</p>
 
 <pre><code>class Foo
   include Id::Model
@@ -186,11 +186,94 @@ end
 foo = Foo.new()
 foo.bar # =&gt; "baz"
 foo.zyzzybalubah # =&gt; None
+
 foo = Foo.new(qux: "quxx", zyzzybalubah: "Russell", corge: "1 Jan 2012")
 foo.bar # =&gt; "quxx"
 foo.zyzzybalubah # =&gt; Some["Russell"]
 foo.corge.year # =&gt; 2012
 foo.corge.class # =&gt; Date
+</code></pre>
+
+<h4>
+<a name="has_onefield_name-options" class="anchor" href="#has_onefield_name-options"><span class="octicon octicon-link"></span></a>has_one(field_name, options={})</h4>
+
+<p>create new has_one "association" field</p>
+
+<h5>
+<a name="options-1" class="anchor" href="#options-1"><span class="octicon octicon-link"></span></a>options</h5>
+
+<ul>
+<li>
+<em>key</em>: fetch <em>key</em> instead of field_name from data hash</li>
+<li>
+<em>optional</em>: if set to true - don't rise errors if the value is nil, return None if value is not nil return Some[value of specified type]</li>
+<li>
+<em>type</em>: change type of returned value</li>
+</ul><p>Example:</p>
+
+<pre><code>class MyMoon
+  include Id::Model
+
+  field :temperature
+end
+
+class Sun
+  include Id::Model
+
+  field :temperature
+end
+
+class Earth
+  include Id::Model
+
+  has_one :sun
+  has_one :moon, key: "satelite", optional: true, type: MyMoon
+end
+
+earth = Earth.new(sun: {temperature: "very very hot"})
+earth.sun.temperature # =&gt; "very very hot"
+earth.sun.class # =&gt; Sun
+earth.moon.some? # =&gt; false
+
+earth_clone = Earth.new(sun: {temperature: "quite hot"}, satelite: { temperature: "cold" })
+earth_clone.moon.some? # =&gt; true
+earth_clone.moon.value.temperature # =&gt; "cold"
+earth_clone.moon.value.class # =&gt; MyMoon
+</code></pre>
+
+<h4>
+<a name="has_manyfield-options" class="anchor" href="#has_manyfield-options"><span class="octicon octicon-link"></span></a>has_many(field, options={})</h4>
+
+<p>create new has_many "association" field</p>
+
+<h5>
+<a name="options-2" class="anchor" href="#options-2"><span class="octicon octicon-link"></span></a>options</h5>
+
+<ul>
+<li>
+<em>key</em>: fetch <em>key</em> instead of field_name from data hash</li>
+<li>
+<em>type</em>: change types of returned values</li>
+</ul><p>Example:</p>
+
+<pre><code>class Satellite
+  include Id::Model
+
+  field :name
+end
+
+class Planet
+  include Id::Model
+
+  has_many :moons, type: Satellite
+  has_many :satellites, key: "sputniks"
+end
+
+earth = Planet.new(moons: [{name: "moon"}], sputniks: [{name: "sputnik 1"}])
+earth.satellites.first.class # =&gt; Satellite
+earth.satellites.first.name # =&gt; "sputnik 1"
+earth.moons.first.class # =&gt; Satellite
+earth.moons.first.name # =&gt; "moon" 
 </code></pre>
       </section>
 
