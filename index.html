@@ -227,7 +227,7 @@ class Earth
   include Id::Model
 
   has_one :sun
-  has_one :moon, key: "satelite", optional: true, type: MyMoon
+  has_one :moon, key: "satellite", optional: true, type: MyMoon
 end
 
 earth = Earth.new(sun: {temperature: "very very hot"})
@@ -235,7 +235,7 @@ earth.sun.temperature # =&gt; "very very hot"
 earth.sun.class # =&gt; Sun
 earth.moon.some? # =&gt; false
 
-earth_clone = Earth.new(sun: {temperature: "quite hot"}, satelite: { temperature: "cold" })
+earth_clone = Earth.new(sun: {temperature: "quite hot"}, satellite: { temperature: "cold" })
 earth_clone.moon.some? # =&gt; true
 earth_clone.moon.value.temperature # =&gt; "cold"
 earth_clone.moon.value.class # =&gt; MyMoon
@@ -274,6 +274,44 @@ earth.satellites.first.class # =&gt; Satellite
 earth.satellites.first.name # =&gt; "sputnik 1"
 earth.moons.first.class # =&gt; Satellite
 earth.moons.first.name # =&gt; "moon" 
+</code></pre>
+
+<h4>
+<a name="builder" class="anchor" href="#builder"><span class="octicon octicon-link"></span></a>builder</h4>
+
+<p>models can be built using a builder</p>
+
+<p>Example:</p>
+
+<pre><code>class Sun
+  include Id::Model
+
+  field :color
+end
+
+class Moon
+  include Id::Model
+
+  field :color
+end
+
+class Planet
+  include Id::Model
+
+  field :name
+  has_many :moons
+  has_one :star
+end
+
+sun = Sun.builder.color("yellow").build
+sun.color # =&gt; "yellow"
+sun.class # =&gt; Sun
+
+moon = Moon.builder.color("grey").build
+earth = Planet.builder.star(sun).moons([moon]).name("earth")
+earth.sun.color # =&gt; "yellow"
+earth.moons.first.color # =&gt; "grey"
+earth.name # =&gt; "earth"
 </code></pre>
       </section>
 
