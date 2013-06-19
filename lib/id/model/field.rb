@@ -28,8 +28,10 @@ module Id
       end
 
       def define_is_present(field)
-        model.send(:define_method, "#{name}?") do
-          data.has_key?(field.key) && !data.fetch(field.key).nil?
+        model.instance_eval do
+          define_method "#{field.name}?" do
+            data.has_key?(field.key) && !data.fetch(field.key).nil?
+          end
         end
       end
 
