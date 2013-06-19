@@ -1,3 +1,4 @@
+require_relative 'definer'
 require_relative 'descriptor'
 require_relative 'type_casts'
 require_relative 'field'

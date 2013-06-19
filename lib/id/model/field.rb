@@ -8,42 +8,17 @@ module Id
         @options = options
       end
 
+      def definers
+        [
+          Definer::FieldGetter,
+          Definer::FieldSetter,
+          Definer::FieldIsPresent,
+          Definer::FieldFormField
+        ]
+      end
+
       def define
-        define_getter(self)
-        define_setter(self)
-        define_is_present(self)
-        define_form_field(self)
-      end
-
-      def define_getter(field)
-        make_getter field do |data|
-          field.cast data.fetch(field.key, &field.default_value)
-        end
-      end
-
-      def define_setter(field)
-        model.instance_eval do
-          builder_class.define_setter field.name
-        end
-      end
-
-      def define_is_present(field)
-        model.instance_eval do
-          define_method "#{field.name}?" do
-            data.has_key?(field.key) && !data.fetch(field.key).nil?
-          end
-        end
-      end
-
-      def define_form_field(field)
-        model.form_object.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              Option[model.send(field.name)].flatten.value_or nil if model.data.has_key? field.key
-            end
-          end
-          attr_writer field.name
-        end
+        definers.each { |definer| definer.define(self) }
       end
 
       def cast(value)
@@ -75,24 +50,17 @@ module Id
 
       attr_reader :model, :name, :options
 
-      private
-
-      def make_getter(field, &block)
-        model.instance_eval do
-          define_method field.name do
-            memoize(field.name, &block)
-          end
-        end
-      end
     end
 
     class FieldOption < Field
-      def define_getter(field)
-        make_getter(field) do |data|
-          Option[data.fetch(field.key, &field.default_value)].map do |d|
-            field.cast d
-          end
-        end
+
+      def definers
+        [
+          Definer::FieldOptionGetter,
+          Definer::FieldSetter,
+          Definer::FieldIsPresent,
+          Definer::FieldFormField
+        ]
       end
     end
   end

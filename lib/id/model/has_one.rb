@@ -2,21 +2,26 @@ module Id
   module Model
     class HasOne < Association
 
-      def define_getter(field)
-        make_getter(field) do |data|
-          child = data.fetch(field.key) { raise MissingAttributeError, field.key }
-          field.type.new(child) unless child.nil?
-        end
+      def definers
+        [
+          Definer::HasOneGetter,
+          Definer::FieldSetter,
+          Definer::FieldIsPresent,
+          Definer::FieldFormField
+        ]
       end
+
     end
 
     class HasOneOption < Association
 
-      def define_getter(field)
-        make_getter(field) do |data|
-          child = data.fetch(field.key, nil)
-          child.nil? ? None : Some[field.type.new(child)]
-        end
+      def definers
+        [
+          Definer::HasOneOptionGetter,
+          Definer::FieldSetter,
+          Definer::FieldIsPresent,
+          Definer::FieldFormField
+        ]
       end
     end
   end
