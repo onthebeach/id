@@ -3,13 +3,9 @@ module Id
     class HasOne < Association
 
       def define_getter(field)
-        model.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              child = data.fetch(field.key) { raise MissingAttributeError, field.key }
-              field.type.new(child) unless child.nil?
-            end
-          end
+        make_getter(field) do |data|
+          child = data.fetch(field.key) { raise MissingAttributeError, field.key }
+          field.type.new(child) unless child.nil?
         end
       end
     end
@@ -17,13 +13,9 @@ module Id
     class HasOneOption < Association
 
       def define_getter(field)
-        model.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              child = data.fetch(field.key, nil)
-              child.nil? ? None : Some[field.type.new(child)]
-            end
-          end
+        make_getter(field) do |data|
+          child = data.fetch(field.key, nil)
+          child.nil? ? None : Some[field.type.new(child)]
         end
       end
     end

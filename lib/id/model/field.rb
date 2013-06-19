@@ -11,17 +11,13 @@ module Id
       def define
         define_getter(self)
         define_setter
-        define_is_present
+        define_is_present(self)
         define_form_field
       end
 
       def define_getter(field)
-        model.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              field.cast data.fetch(field.key, &field.default_value)
-            end
-          end
+        make_getter field do |data|
+          field.cast data.fetch(field.key, &field.default_value)
         end
       end
 
@@ -29,9 +25,8 @@ module Id
         model.send(:builder_class).define_setter name
       end
 
-      def define_is_present
-        field = self
-        model.send :define_method, "#{name}?" do
+      def define_is_present(field)
+        model.send(:define_method, "#{name}?") do
           data.has_key?(field.key) && !data.fetch(field.key).nil?
         end
       end
@@ -74,17 +69,21 @@ module Id
       end
 
       attr_reader :model, :name, :options
+
+      def make_getter(field, &block)
+        model.instance_eval do
+          define_method field.name do
+            memoize(field.name, &block)
+          end
+        end
+      end
     end
 
     class FieldOption < Field
       def define_getter(field)
-        model.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              Option[data.fetch(field.key, &field.default_value)].map do |d|
-                field.cast d
-              end
-            end
+        make_getter(field) do |data|
+          Option[data.fetch(field.key, &field.default_value)].map do |d|
+            field.cast d
           end
         end
       end

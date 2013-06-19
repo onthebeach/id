@@ -3,12 +3,8 @@ module Id
     class HasMany < Association
 
       def define_getter(field)
-        model.instance_eval do
-          define_method field.name do
-            memoize field.name do
-              data.fetch(field.key, []).map { |r| field.type.new(r) }
-            end
-          end
+        make_getter(field) do |data|
+          data.fetch(field.key, []).map { |r| field.type.new(r) }
         end
       end
 

@@ -42,7 +42,7 @@ module Id
     end
 
     def memoize(f, &b)
-      instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call)
+      instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call(data))
     end
 
   end
