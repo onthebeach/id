@@ -3,6 +3,7 @@ module Id
     module Descriptor
 
       def field(f, options={})
+        Field.new(self, f, options).define
         (options[:optional] ? FieldOption : Field).new(self, f, options).define
       end
 
