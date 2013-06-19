@@ -18,11 +18,11 @@ module Id
 
       def define
         definers.each { |definer| definer.define(self) }
-        hook_define(self)
+        hook_define
       end
 
-      def hook_define(field)
-        Definer::FieldGetter.define(field)
+      def hook_define
+        Definer::FieldGetter.define(self)
       end
 
       def cast(value)
@@ -58,8 +58,8 @@ module Id
 
     class FieldOption < Field
 
-      def hook_define(field)
-        Definer::FieldOptionGetter.define(field)
+      def hook_define
+        Definer::FieldOptionGetter.define(self)
       end
     end
   end

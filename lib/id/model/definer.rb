@@ -3,10 +3,10 @@ module Id
     module Definer
 
       class Maker
-        def self.make(field, &block)
-          field.model.instance_eval do
-            define_method field.name do
-              memoize(field.name, &block)
+        def self.make(model, name, &block)
+          model.instance_eval do
+            define_method name do
+              memoize(name, &block)
             end
           end
         end
@@ -14,7 +14,7 @@ module Id
 
       class HasManyGetter < Maker
         def self.define(field)
-          make field do |data|
+          make field.model, field.name do |data|
             data.fetch(field.key, []).map { |r| field.type.new(r) }
           end
         end
@@ -22,7 +22,7 @@ module Id
 
       class FieldOptionGetter < Maker
         def self.define(field)
-          make field do |data|
+          make field.model, field.name do |data|
             Option[data.fetch(field.key, &field.default_value)].map do |d|
               field.cast d
             end
@@ -32,7 +32,7 @@ module Id
 
       class HasOneOptionGetter < Maker
         def self.define(field)
-          make field do |data|
+          make field.model, field.name do |data|
             child = data.fetch(field.key, nil)
             child.nil? ? None : Some[field.type.new(child)]
           end
@@ -41,7 +41,7 @@ module Id
 
       class HasOneGetter < Maker
         def self.define(field)
-          make field do |data|
+          make field.model, field.name do |data|
             child = data.fetch(field.key) { raise MissingAttributeError, field.key }
             field.type.new(child) unless child.nil?
           end
@@ -64,7 +64,7 @@ module Id
       class FieldGetter < Maker
 
         def self.define(field)
-          make field do |data|
+          make field.model, field.name do |data|
             field.cast data.fetch(field.key, &field.default_value)
           end
         end
