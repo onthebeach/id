@@ -36,12 +36,14 @@ module Id
       end
 
       def define_form_field(field)
-        model.form_object.send :define_method, name do
-          memoize field.name do
-            Option[model.send(field.name)].flatten.value_or nil if model.data.has_key? field.key
+        model.form_object.instance_eval do
+          define_method field.name do
+            memoize field.name do
+              Option[model.send(field.name)].flatten.value_or nil if model.data.has_key? field.key
+            end
           end
+          attr_writer field.name
         end
-        model.form_object.send :attr_writer, name
       end
 
       def cast(value)
@@ -72,6 +74,8 @@ module Id
       end
 
       attr_reader :model, :name, :options
+
+      private
 
       def make_getter(field, &block)
         model.instance_eval do
