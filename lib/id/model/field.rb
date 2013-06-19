@@ -10,7 +10,6 @@ module Id
 
       def definers
         [
-          Definer::FieldSetter,
           Definer::FieldIsPresent,
           Definer::FieldFormField
         ]

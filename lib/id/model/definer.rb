@@ -71,14 +71,6 @@ module Id
 
       end
 
-      class FieldSetter
-        def self.define(field)
-          field.model.instance_eval do
-            builder_class.define_setter field.name
-          end
-        end
-      end
-
       class FieldIsPresent
         def self.define(field)
           field.model.instance_eval do

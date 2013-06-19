@@ -18,10 +18,6 @@ module Id
         CompoundField.new(self, f, fields, options).define
       end
 
-      def builder
-        builder_class.new(self)
-      end
-
       def form &block
         form_object.send :instance_exec, &block
       end
@@ -39,12 +35,6 @@ module Id
 
       def to_proc
         ->(data) { new data }
-      end
-
-      private
-
-      def builder_class
-        @builder_class ||= Class.new { include Builder }
       end
 
     end
