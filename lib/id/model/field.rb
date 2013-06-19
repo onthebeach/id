@@ -10,7 +10,7 @@ module Id
 
       def define
         define_getter(self)
-        define_setter
+        define_setter(self)
         define_is_present(self)
         define_form_field(self)
       end
@@ -21,8 +21,10 @@ module Id
         end
       end
 
-      def define_setter
-        model.send(:builder_class).define_setter name
+      def define_setter(field)
+        model.instance_eval do
+          builder_class.define_setter field.name
+        end
       end
 
       def define_is_present(field)
