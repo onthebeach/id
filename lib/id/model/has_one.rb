@@ -2,27 +2,18 @@ module Id
   module Model
     class HasOne < Association
 
-      def definers
-        [
-          Definer::HasOneGetter,
-          Definer::FieldSetter,
-          Definer::FieldIsPresent,
-          Definer::FieldFormField
-        ]
+      def hook_define(field)
+        Definer::HasOneGetter.define(field)
       end
 
     end
 
     class HasOneOption < Association
 
-      def definers
-        [
-          Definer::HasOneOptionGetter,
-          Definer::FieldSetter,
-          Definer::FieldIsPresent,
-          Definer::FieldFormField
-        ]
+      def hook_define(field)
+        Definer::HasOneOptionGetter.define(field)
       end
+
     end
   end
 end

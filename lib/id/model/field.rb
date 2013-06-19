@@ -10,7 +10,6 @@ module Id
 
       def definers
         [
-          Definer::FieldGetter,
           Definer::FieldSetter,
           Definer::FieldIsPresent,
           Definer::FieldFormField
@@ -19,6 +18,11 @@ module Id
 
       def define
         definers.each { |definer| definer.define(self) }
+        hook_define(self)
+      end
+
+      def hook_define(field)
+        Definer::FieldGetter.define(field)
       end
 
       def cast(value)
@@ -54,13 +58,8 @@ module Id
 
     class FieldOption < Field
 
-      def definers
-        [
-          Definer::FieldOptionGetter,
-          Definer::FieldSetter,
-          Definer::FieldIsPresent,
-          Definer::FieldFormField
-        ]
+      def hook_define(field)
+        Definer::FieldOptionGetter.define(field)
       end
     end
   end
