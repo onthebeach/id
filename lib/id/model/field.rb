@@ -12,7 +12,7 @@ module Id
         define_getter(self)
         define_setter
         define_is_present(self)
-        define_form_field
+        define_form_field(self)
       end
 
       def define_getter(field)
@@ -31,8 +31,7 @@ module Id
         end
       end
 
-      def define_form_field
-        field = self
+      def define_form_field(field)
         model.form_object.send :define_method, name do
           memoize field.name do
             Option[model.send(field.name)].flatten.value_or nil if model.data.has_key? field.key
