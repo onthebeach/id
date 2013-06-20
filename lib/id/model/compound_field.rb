@@ -7,8 +7,8 @@ module Id
         super(model, name, options)
       end
 
-      def hook_define
-        Definer::CompoundFieldGetter.define(self)
+      def definer
+        Definer::CompoundFieldGetter
       end
 
       attr_accessor :fields

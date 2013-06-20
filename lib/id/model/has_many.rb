@@ -2,8 +2,8 @@ module Id
   module Model
     class HasMany < Association
 
-      def hook_define
-        Definer::HasManyGetter.define(self)
+      def definer
+        Definer::HasManyGetter
       end
 
     end

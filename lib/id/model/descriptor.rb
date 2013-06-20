@@ -7,7 +7,7 @@ module Id
       end
 
       def has_one(f, options={})
-        (options[:optional] ? HasOneOption : HasOne).new(self, f, options).define
+        HasOne.new(self, f, options).define
       end
 
       def has_many(f, options={})

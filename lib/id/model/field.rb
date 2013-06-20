@@ -18,11 +18,11 @@ module Id
       end
 
       def hook_define
-        if optional?
-          Definer::FieldOptionGetter.define(self)
-        else
-          Definer::FieldGetter.define(self)
-        end
+        definer.define(self)
+      end
+
+      def definer
+        optional ? Definer::FieldOptionGetter : Definer::FieldGetter
       end
 
       def cast(value)
@@ -51,6 +51,7 @@ module Id
       def optional?
         options.fetch(:optional, false)
       end
+      alias_method :optional, :optional? 
 
       attr_reader :model, :name, :options
 
