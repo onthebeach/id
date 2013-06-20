@@ -51,7 +51,7 @@ module Id
       def optional?
         options.fetch(:optional, false)
       end
-      alias_method :optional, :optional? 
+      alias_method :optional, :optional?
 
       attr_reader :model, :name, :options
 

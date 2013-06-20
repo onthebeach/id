@@ -2,6 +2,7 @@ require 'spec_helper'
 
 class Gerbil
   include Id::Model
+  include Id::Form
 
   field :name
   field :paws
