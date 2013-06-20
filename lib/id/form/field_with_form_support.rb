@@ -3,7 +3,7 @@ module Id
     class FieldWithFormSupport < Id::Model::Field
 
       def additional_method_definers
-        [ Id::Model::Definer::FieldFormField ]
+        [ FieldForm ]
       end
 
     end

@@ -2,17 +2,17 @@ module Id
   module Model
     module Definer
 
-      class Maker
-        def self.make(model, name, &block)
-          model.instance_eval do
-            define_method name do
-              memoize(name, &block)
-            end
+      def make(model, name, &block)
+        model.instance_eval do
+          define_method name do
+            memoize(name, &block)
           end
         end
       end
 
-      class HasManyGetter < Maker
+      class HasManyGetter
+        extend Definer
+
         def self.define(field)
           make field.model, field.name do |data|
             data.fetch(field.key, []).map { |r| field.type.new(r) }
@@ -20,7 +20,9 @@ module Id
         end
       end
 
-      class FieldOptionGetter < Maker
+      class FieldOptionGetter
+        extend Definer
+
         def self.define(field)
           make field.model, field.name do |data|
             Option[data.fetch(field.key, &field.default_value)].map do |d|
@@ -30,7 +32,9 @@ module Id
         end
       end
 
-      class HasOneOptionGetter < Maker
+      class HasOneOptionGetter
+        extend Definer
+
         def self.define(field)
           make field.model, field.name do |data|
             child = data.fetch(field.key, nil)
@@ -39,7 +43,9 @@ module Id
         end
       end
 
-      class HasOneGetter < Maker
+      class HasOneGetter
+        extend Definer
+
         def self.define(field)
           make field.model, field.name do |data|
             child = data.fetch(field.key) { raise MissingAttributeError, field.key }
@@ -61,7 +67,8 @@ module Id
         end
       end
 
-      class FieldGetter < Maker
+      class FieldGetter
+        extend Definer
 
         def self.define(field)
           make field.model, field.name do |data|
@@ -72,6 +79,7 @@ module Id
       end
 
       class FieldIsPresent
+
         def self.define(field)
           field.model.instance_eval do
             define_method "#{field.name}?" do
@@ -81,18 +89,6 @@ module Id
         end
       end
 
-      class FieldFormField
-        def self.define(field)
-          field.model.form_object.instance_eval do
-            define_method field.name do
-              memoize field.name do
-                Option[model.send(field.name)].flatten.value_or nil if model.data.has_key? field.key
-              end
-            end
-            attr_writer field.name
-          end
-        end
-      end
     end
   end
 end
