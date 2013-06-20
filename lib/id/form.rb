@@ -17,12 +17,5 @@ module Id
       base.extend(Descriptor)
     end
 
-    class FieldWithFormSupport < Id::Model::Field
-
-      def additional_method_definers
-        [ Id::Model::Definer::FieldFormField ]
-      end
-
-    end
   end
 end
