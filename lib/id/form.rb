@@ -29,7 +29,7 @@ module Id
 
       def form_object
         base = self
-        @form_object ||= Class.new(Id::Model::Form) do
+        @form_object ||= Class.new(ActiveModelForm) do
           instance_exec do
             define_singleton_method :model_name do
               ActiveModel::Name.new(self, nil, base.name)
@@ -41,11 +41,10 @@ module Id
       class FieldWithFormSupport < Id::Model::Field
 
         def definers
-          [ Id::Model::Definer::FieldIsPresent, Id::Model::Definer::FieldFormField ]
+          super + [ Id::Model::Definer::FieldFormField ]
         end
 
       end
-
     end
   end
 end

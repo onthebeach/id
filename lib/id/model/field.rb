@@ -9,7 +9,7 @@ module Id
       end
 
       def definers
-        [ Definer::FieldIsPresent, Definer::FieldFormField ]
+        [ Definer::FieldIsPresent ]
       end
 
       def define
