@@ -3,7 +3,7 @@ module Id
     module Descriptor
 
       def field(f, options={})
-        (options[:optional] ? FieldOption : Field).new(self, f, options).define
+        Field.new(self, f, options).define
       end
 
       def has_one(f, options={})

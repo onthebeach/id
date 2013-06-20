@@ -9,10 +9,7 @@ module Id
       end
 
       def definers
-        [
-          Definer::FieldIsPresent,
-          Definer::FieldFormField
-        ]
+        [ Definer::FieldIsPresent, Definer::FieldFormField ]
       end
 
       def define
@@ -21,7 +18,11 @@ module Id
       end
 
       def hook_define
-        Definer::FieldGetter.define(self)
+        if optional?
+          Definer::FieldOptionGetter.define(self)
+        else
+          Definer::FieldGetter.define(self)
+        end
       end
 
       def cast(value)
@@ -53,13 +54,6 @@ module Id
 
       attr_reader :model, :name, :options
 
-    end
-
-    class FieldOption < Field
-
-      def hook_define
-        Definer::FieldOptionGetter.define(self)
-      end
     end
   end
 end
