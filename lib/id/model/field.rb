@@ -8,21 +8,20 @@ module Id
         @options = options
       end
 
-      def definers
-        [ Definer::FieldIsPresent ]
-      end
-
       def define
-        definers.each { |definer| definer.define(self) }
-        hook_define
+        method_definers.each { |method| method.define(self) }
       end
 
-      def hook_define
-        definer.define(self)
+      def method_definers
+        [ Definer::FieldIsPresent, method_getter ] + additional_method_definers
       end
 
-      def definer
+      def method_getter
         optional ? Definer::FieldOptionGetter : Definer::FieldGetter
+      end
+
+      def additional_method_definers
+        []
       end
 
       def cast(value)

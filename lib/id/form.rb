@@ -40,8 +40,8 @@ module Id
 
       class FieldWithFormSupport < Id::Model::Field
 
-        def definers
-          super + [ Id::Model::Definer::FieldFormField ]
+        def additional_method_definers
+          [ Id::Model::Definer::FieldFormField ]
         end
 
       end

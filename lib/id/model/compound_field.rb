@@ -7,7 +7,7 @@ module Id
         super(model, name, options)
       end
 
-      def definer
+      def method_getter
         Definer::CompoundFieldGetter
       end
 

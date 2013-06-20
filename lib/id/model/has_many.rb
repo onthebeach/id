@@ -2,7 +2,7 @@ module Id
   module Model
     class HasMany < Association
 
-      def definer
+      def method_getter
         Definer::HasManyGetter
       end
 
