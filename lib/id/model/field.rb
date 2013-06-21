@@ -9,13 +9,9 @@ module Id
       end
 
       def define
-        Definer::FieldGetter.define(model, name) { |data| value_of data }
-        method_definers.each { |method| method.define(self) }
+        Definer.method(model, name) { |data| value_of data }
+        Definer.method(model, "#{name}?") { |data| presence_of(data) }
         hook_define
-      end
-
-      def method_definers
-        [ Definer::FieldIsPresent ]
       end
 
       def hook_define
@@ -34,6 +30,7 @@ module Id
       def presence_of(data)
         data.has_key?(key) && !data.fetch(key).nil?
       end
+
       def cast(value)
         TypeCasts.cast(options.fetch(:type, false), value)
       end
