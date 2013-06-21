@@ -2,8 +2,8 @@ module Id
   module Model
     class HasMany < Association
 
-      def method_getter
-        Definer::HasManyGetter
+      def value_of(data)
+        data.fetch(key, []).map { |r| type.new(r) }
       end
 
     end

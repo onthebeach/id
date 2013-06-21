@@ -21,36 +21,6 @@ module Id
 
       end
 
-      class HasOneGetter
-        extend Definer
-
-        def self.define(field)
-          make field.model, field.name do |data|
-            field.value_of(data)
-          end
-        end
-      end
-
-      class HasOneOptionGetter
-        extend Definer
-
-        def self.define(field)
-          make field.model, field.name do |data|
-            field.value_of(data)
-          end
-        end
-      end
-
-      class HasManyGetter
-        extend Definer
-
-        def self.define(field)
-          make field.model, field.name do |data|
-            data.fetch(field.key, []).map { |r| field.type.new(r) }
-          end
-        end
-      end
-
       class CompoundFieldGetter
         def self.define(field)
           field.model.instance_eval do
