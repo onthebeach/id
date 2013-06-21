@@ -21,12 +21,12 @@ module Id
 
       end
 
-      class HasManyGetter
+      class HasOneGetter
         extend Definer
 
         def self.define(field)
           make field.model, field.name do |data|
-            data.fetch(field.key, []).map { |r| field.type.new(r) }
+            field.value_of(data)
           end
         end
       end
@@ -42,13 +42,12 @@ module Id
         end
       end
 
-      class HasOneGetter
+      class HasManyGetter
         extend Definer
 
         def self.define(field)
           make field.model, field.name do |data|
-            child = data.fetch(field.key) { raise MissingAttributeError, field.key }
-            field.type.new(child) unless child.nil?
+            data.fetch(field.key, []).map { |r| field.type.new(r) }
           end
         end
       end
