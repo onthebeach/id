@@ -4,8 +4,8 @@ module Id
 
       class FieldGetter
 
-        def self.define(model, name, &value_block)
-          model.instance_eval do
+        def self.define(context, name, &value_block)
+          context.instance_eval do
             define_method name do
               memoize(name, &value_block)
             end
@@ -18,7 +18,7 @@ module Id
         def self.define(field)
           field.model.instance_eval do
             define_method "#{field.name}?" do
-              data.has_key?(field.key) && !data.fetch(field.key).nil?
+              field.presence_of(data)
             end
           end
         end

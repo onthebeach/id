@@ -31,6 +31,9 @@ module Id
         end
       end
 
+      def presence_of(data)
+        data.has_key?(key) && !data.fetch(key).nil?
+      end
       def cast(value)
         TypeCasts.cast(options.fetch(:type, false), value)
       end
