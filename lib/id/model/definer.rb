@@ -18,22 +18,7 @@ module Id
             field.value_of(data)
           end
         end
-
       end
-
-      class CompoundFieldGetter
-        def self.define(field)
-          field.model.instance_eval do
-            define_method field.name do
-              memoize field.name do
-                compound = Hash[field.fields.map { |k,v| [k.to_s, send(v) { raise MissingAttributeError, k.to_s }]}]
-                field.type.new(compound)
-              end
-            end
-          end
-        end
-      end
-
 
       class FieldIsPresent
 
@@ -45,7 +30,6 @@ module Id
           end
         end
       end
-
     end
   end
 end
