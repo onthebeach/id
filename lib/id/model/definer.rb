@@ -26,9 +26,7 @@ module Id
 
         def self.define(field)
           make field.model, field.name do |data|
-            Option[data.fetch(field.key, &field.default_value)].map do |d|
-              field.cast d
-            end
+            field.value_of(data)
           end
         end
       end

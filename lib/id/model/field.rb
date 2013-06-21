@@ -25,8 +25,15 @@ module Id
       end
 
       def value_of(data)
-        cast data.fetch(key, &default_value)
+        if optional?
+          Option[data.fetch(key, &default_value)].map do |d|
+            cast d
+          end
+        else
+          cast data.fetch(key, &default_value)
+        end
       end
+
       def cast(value)
         TypeCasts.cast(options.fetch(:type, false), value)
       end
