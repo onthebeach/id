@@ -36,8 +36,7 @@ module Id
 
         def self.define(field)
           make field.model, field.name do |data|
-            child = data.fetch(field.key, nil)
-            child.nil? ? None : Some[field.type.new(child)]
+            field.value_of(data)
           end
         end
       end
