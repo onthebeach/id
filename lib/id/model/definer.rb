@@ -4,12 +4,10 @@ module Id
 
       class FieldGetter
 
-        def self.define(field)
-          field.model.instance_eval do
-            define_method field.name do
-              memoize field.name do |data|
-                field.value_of(data)
-              end
+        def self.define(model, name, &value_block)
+          model.instance_eval do
+            define_method name do
+              memoize(name, &value_block)
             end
           end
         end

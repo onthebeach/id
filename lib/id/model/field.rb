@@ -9,12 +9,13 @@ module Id
       end
 
       def define
+        Definer::FieldGetter.define(model, name) { |data| value_of data }
         method_definers.each { |method| method.define(self) }
         hook_define
       end
 
       def method_definers
-        [ Definer::FieldIsPresent, Definer::FieldGetter ]
+        [ Definer::FieldIsPresent ]
       end
 
       def hook_define
