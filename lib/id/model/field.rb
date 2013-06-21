@@ -18,13 +18,8 @@ module Id
       end
 
       def value_of(data)
-        if optional?
-          Option[data.fetch(key, &default_value)].map do |d|
-            cast d
-          end
-        else
-          cast data.fetch(key, &default_value)
-        end
+        value = data.fetch(key, &default_value)
+        optional ? Option[value].map{ |d| cast d } : cast(value)
       end
 
       def presence_of(data)
