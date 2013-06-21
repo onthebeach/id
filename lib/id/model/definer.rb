@@ -10,14 +10,15 @@ module Id
         end
       end
 
-      class HasManyGetter
+      class FieldGetter
         extend Definer
 
         def self.define(field)
           make field.model, field.name do |data|
-            data.fetch(field.key, []).map { |r| field.type.new(r) }
+            field.value_of(data)
           end
         end
+
       end
 
       class FieldOptionGetter
@@ -28,6 +29,16 @@ module Id
             Option[data.fetch(field.key, &field.default_value)].map do |d|
               field.cast d
             end
+          end
+        end
+      end
+
+      class HasManyGetter
+        extend Definer
+
+        def self.define(field)
+          make field.model, field.name do |data|
+            data.fetch(field.key, []).map { |r| field.type.new(r) }
           end
         end
       end
@@ -67,16 +78,6 @@ module Id
         end
       end
 
-      class FieldGetter
-        extend Definer
-
-        def self.define(field)
-          make field.model, field.name do |data|
-            field.cast data.fetch(field.key, &field.default_value)
-          end
-        end
-
-      end
 
       class FieldIsPresent
 

@@ -24,6 +24,9 @@ module Id
         []
       end
 
+      def value_of(data)
+        cast data.fetch(key, &default_value)
+      end
       def cast(value)
         TypeCasts.cast(options.fetch(:type, false), value)
       end
