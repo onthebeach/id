@@ -2,20 +2,15 @@ module Id
   module Model
     module Definer
 
-      def make(model, name, &block)
-        model.instance_eval do
-          define_method name do
-            memoize(name, &block)
-          end
-        end
-      end
-
       class FieldGetter
-        extend Definer
 
         def self.define(field)
-          make field.model, field.name do |data|
-            field.value_of(data)
+          field.model.instance_eval do
+            define_method field.name do
+              memoize field.name do |data|
+                field.value_of(data)
+              end
+            end
           end
         end
       end

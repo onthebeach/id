@@ -14,10 +14,6 @@ module Id
         HasMany.new(self, f, options).define
       end
 
-      def compound_field(f, fields, options={})
-        CompoundField.new(self, f, fields, options).define
-      end
-
       def to_proc
         ->(data) { new data }
       end

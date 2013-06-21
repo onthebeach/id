@@ -10,18 +10,14 @@ module Id
 
       def define
         method_definers.each { |method| method.define(self) }
+        hook_define
       end
 
       def method_definers
-        [ Definer::FieldIsPresent, method_getter ] + additional_method_definers
+        [ Definer::FieldIsPresent, Definer::FieldGetter ]
       end
 
-      def method_getter
-        Definer::FieldGetter
-      end
-
-      def additional_method_definers
-        []
+      def hook_define
       end
 
       def value_of(data)
