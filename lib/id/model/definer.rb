@@ -21,16 +21,6 @@ module Id
 
       end
 
-      class FieldOptionGetter
-        extend Definer
-
-        def self.define(field)
-          make field.model, field.name do |data|
-            field.value_of(data)
-          end
-        end
-      end
-
       class HasManyGetter
         extend Definer
 

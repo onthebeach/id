@@ -17,7 +17,7 @@ module Id
       end
 
       def method_getter
-        optional ? Definer::FieldOptionGetter : Definer::FieldGetter
+        Definer::FieldGetter
       end
 
       def additional_method_definers
