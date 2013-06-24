@@ -9,8 +9,8 @@ module Id
       end
 
       def define
-        Definer.method(model, name) { |data| value_of data }
-        Definer.method(model, "#{name}?") { |data| presence_of(data) }
+        Definer.method_memoize(model, name) { |data| value_of(data) }
+        Definer.method(model, "#{name}?") { |obj| presence_of(obj.data) }
         hook_define
       end
 
