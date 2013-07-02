@@ -20,8 +20,8 @@ GEM
     diff-lcs (1.2.1)
     i18n (0.6.4)
     json (1.7.7)
-    money (5.1.1)
-      i18n (~> 0.6.0)
+    money (3.7.1)
+      i18n (~> 0.4)
     multi_json (1.7.3)
     optional (0.0.6)
     rspec (2.13.0)
@@ -44,6 +44,7 @@ PLATFORMS
 DEPENDENCIES
   id!
   json (~> 1.7.7)
+  money (= 3.7.1)
   rspec
   simplecov
   test-unit
