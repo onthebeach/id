@@ -26,7 +26,9 @@ module Id
         end
 
         def parent
-          @parent ||= constants.find { |c| c.const_defined? child }
+          @parent ||= constants.find do |c|
+            c.ancestors.find { |anc| anc.const_defined? child }
+          end
         end
 
         def constants

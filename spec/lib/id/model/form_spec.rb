@@ -2,13 +2,14 @@ require 'spec_helper'
 
 class Gerbil
   include Id::Model
+  include Id::Form
 
   field :name
   field :paws
 
   form do
     validates_presence_of :name
-    validates_length_of :name, maximum: 4
+    validates_length_of :name, :maximum => 4
   end
 
   def name_in_caps
@@ -21,7 +22,7 @@ module Id
   module Model
     describe Form do
 
-      let (:gerbil) { Gerbil.new(name: 'Berty') }
+      let (:gerbil) { Gerbil.new(:name => 'Berty') }
       let (:form)   { gerbil.as_form }
 
       subject { gerbil.as_form }
