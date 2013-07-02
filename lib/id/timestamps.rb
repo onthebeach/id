@@ -14,8 +14,8 @@ module Id
 
     def _timestamps(data, now=Time.now)
       {
-        created_at: data.fetch('created_at', now),
-        updated_at: now
+        :created_at => data.fetch('created_at', now),
+        :updated_at => now
       }
     end
 

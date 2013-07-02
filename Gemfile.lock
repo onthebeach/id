@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/rsslldnphy/optional
+  revision: f07e8fbcb5599c3eefd628d6af4b5e85f05a64f9
+  branch: master
+  specs:
+    optional (0.0.7)
+
 PATH
   remote: .
   specs:
@@ -23,7 +30,6 @@ GEM
     money (3.7.1)
       i18n (~> 0.4)
     multi_json (1.7.3)
-    optional (0.0.6)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -45,6 +51,7 @@ DEPENDENCIES
   id!
   json (~> 1.7.7)
   money (= 3.7.1)
+  optional!
   rspec
   simplecov
   test-unit

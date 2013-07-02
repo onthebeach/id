@@ -4,7 +4,7 @@ class Mike
   include Id::Model
 
   field :cat
-  field :dog, optional: true
+  field :dog, :optional => true
 
   def catdog
     dog.value_or cat
@@ -13,7 +13,7 @@ class Mike
 end
 
 describe "Foobar" do
-  let (:mike) { Mike.new(cat: 'pooface') }
+  let (:mike) { Mike.new(:cat => 'pooface') }
   it 'returns cat' do
     mike.catdog.should eq 'pooface'
   end

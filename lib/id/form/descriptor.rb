@@ -13,10 +13,11 @@ module Id
       def form_object
         base = self
         @form_object ||= Class.new(ActiveModelForm) do
-          instance_exec do
-            define_singleton_method :model_name do
-              ActiveModel::Name.new(self, nil, base.name)
-            end
+          eingenclass = class << self
+            self
+          end
+          eingenclass.send(:define_method, :model_name) do
+            ActiveModel::Name.new(self, nil, base.name)
           end
         end
       end

@@ -15,7 +15,7 @@ module Id
       end
 
       def to_proc
-        ->(data) { new data }
+        lambda { |data| new data }
       end
 
     end

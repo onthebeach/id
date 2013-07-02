@@ -11,7 +11,7 @@ end
 module Id
   describe Timestamps do
 
-    let (:model) { TimeStampedModel.new(foo: 999, bar: 666) }
+    let (:model) { TimeStampedModel.new(:foo => 999, :bar => 666) }
 
     it 'should have a created_at date' do
       model.created_at.should be_a Time
@@ -22,7 +22,7 @@ module Id
     end
 
     it 'should update the updated at when set is called' do
-      updated = model.set(foo: 123)
+      updated = model.set(:foo => 123)
       expect(updated.created_at).to be < updated.updated_at
     end
 

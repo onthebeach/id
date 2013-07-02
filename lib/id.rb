@@ -1,3 +1,4 @@
+require 'core/ext/kernel'
 require 'active_model'
 require 'active_support/inflector'
 require 'active_support/core_ext/string/inflections'
