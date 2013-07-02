@@ -1,7 +1,0 @@
-require_relative 'definer'
-require_relative 'descriptor'
-require_relative 'type_casts'
-require_relative 'field'
-require_relative 'association'
-require_relative 'has_one'
-require_relative 'has_many'
