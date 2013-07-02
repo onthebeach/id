@@ -6,15 +6,15 @@ module Id
     end
 
     def initialize(data = {})
-      super data.merge(created_at: data.fetch('created_at', Time.now))
+      super data.merge(:created_at => data.fetch('created_at', Time.now))
     end
 
     def set(values)
-      self.class.new(super.data.merge(updated_at: Time.now))
+      self.class.new(super.data.merge(:updated_at => Time.now))
     end
 
     def unset(*keys)
-      self.class.new(super.data.merge(updated_at: Time.now))
+      self.class.new(super.data.merge(:updated_at => Time.now))
     end
   end
 end

@@ -23,18 +23,6 @@ module Id
       data.hash
     end
 
-    def as_form
-      @form_object ||= self.class.form_object.new(self)
-    end
-
-    def errors
-      as_form.errors
-    end
-
-    def valid?
-      as_form.valid?
-    end
-
     private
 
     def self.included(base)
@@ -42,7 +30,7 @@ module Id
     end
 
     def memoize(f, &b)
-      instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call)
+      instance_variable_get("@#{f}") || instance_variable_set("@#{f}", b.call(data))
     end
 
   end

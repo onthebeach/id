@@ -1,6 +1,6 @@
 module Id
-  module Model
-    class Form
+  module Form
+    class ActiveModelForm
       include ActiveModel::Validations
       include ActiveModel::Conversion
       extend  ActiveModel::Naming
