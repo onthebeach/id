@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    id (0.0.9)
-      activemodel
+    id (0.0.10)
       activesupport
       money
       optional
@@ -42,6 +41,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel
   id!
   json (~> 1.7.7)
   money (= 3.7.1)
