@@ -1,3 +1,4 @@
+require 'active_model'
 require 'rspec'
 require 'lib/id'
 require 'support/active_model_lint'

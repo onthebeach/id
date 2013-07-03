@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'time'
+require 'date'
 
 module Id
   module Model
