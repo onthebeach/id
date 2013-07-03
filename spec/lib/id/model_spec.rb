@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+class OptionalModel
+  include Id::Model
+  field :buzz
+end
+
 class NestedModel
   include Id::Model
   field :yak
@@ -21,6 +26,7 @@ class TestModel
   has_one :nested_model, :key => 'aliased_model'
   has_one :extra_nested_model
   has_one :test_model
+  has_one :optional_model, :optional => true
   has_many :nested_models
 
   class ExtraNestedModel
@@ -35,6 +41,7 @@ describe Id::Model do
                                :quxx => 8,
                                :test_model => {},
                                :date_of_birth => '06-06-1983',
+                               :optional_model => { 'yak' => 11},
                                :aliased_model => { 'yak' => 11},
                                :nested_models => [{ 'yak' => 11}, { :yak => 14 }],
                                :extra_nested_model => { :cats => "MIAOW" }) }
@@ -102,6 +109,14 @@ describe Id::Model do
     end
     it "allows recursively defined models" do
       model.test_model.should be_a TestModel
+    end
+
+    it "allows optional models" do
+      model.optional_model.should be_some
+    end
+
+    it "allows optional models with correct values" do
+      model.optional_model.should eq Some[OptionalModel.new(:yak => 11)]
     end
   end
 
