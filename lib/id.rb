@@ -4,6 +4,9 @@ require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/hash/except'
 require 'optional'
 require 'money'
+require 'faraday'
+require 'yajl'
+
 require 'id/missing_attribute_error'
 require 'id/hashifier'
 require 'id/model/definer'
@@ -14,9 +17,18 @@ require 'id/model/association'
 require 'id/model/has_one'
 require 'id/model/has_many'
 require 'id/model'
+
 require 'id/timestamps'
+
 require 'id/form'
 require 'id/form/active_model_form'
 require 'id/form/descriptor'
 require 'id/form/field_with_form_support'
 require 'id/form/field_form'
+
+require 'id/http/request'
+require 'id/http/response'
+require 'id/http/get'
+require 'id/http/api_error'
+require 'id/http/url_pattern'
+

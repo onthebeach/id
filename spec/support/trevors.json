@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Server: nginx/1.1.19
+Date: Sun, 04 Aug 2013 09:27:21 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 424
+Connection: keep-alive
+Vary: Accept-Encoding
+
+[
+  {
+    "id": 4,
+    "name": "Trevor Wright"
+  },
+  {
+    "id": 5,
+    "name": "Trevor McDonald"
+  }
+]

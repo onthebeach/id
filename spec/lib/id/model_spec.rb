@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'date'
 
 class OptionalModel
   include Id::Model

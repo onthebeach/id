@@ -63,3 +63,28 @@ You can even set fields on nested models in this way:
 
 `id` tries to avoid nils entirely, by using the Option pattern found in many functional programming languages and implemented [here](http://github.com/rsslldnphy/optional).
 Just mark optional fields as `optional: true` and their accessors will return either `Some[value]` or `None`.
+
+#### Using with JSON APIs
+
+The `Id::Http` module makes it easy to use http apis to fetch your id models. You just need to specify the correct URL.
+
+Use `resource` if you expect to get a single model back, `resources if you expect to get an array:
+
+    class Cat
+      include Id::Model
+      include Id::Http
+
+      field :name
+      field :favourite_food
+
+      resource :find, 'cat-api/by-name/:name'
+
+      resources :for_food, 'cat-api/for-food/:food'
+    end
+
+Then call the defined API endpoints like this:
+
+    Cat.find(name: 'Terry')        # => returns a single Cat
+    Cat.for_food(food: 'Sardines') # => returns an array of Cats
+
+The `:keys` in the url pattern are replaced with the respective value in the query hash.
