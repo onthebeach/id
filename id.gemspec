@@ -13,10 +13,13 @@ Gem::Specification.new do |s|
 
   s.add_dependency "optional"
   s.add_dependency "money"
+  s.add_dependency "faraday"
+  s.add_dependency "yajl-ruby"
   s.add_dependency "activesupport"
   s.add_dependency "activemodel"
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "webmock"
   s.add_development_dependency "simplecov"
 
 end
