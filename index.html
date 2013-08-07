@@ -132,6 +132,32 @@ person.address.street # =&gt; "King's Street"
 </code></pre>
 
 <h4>
+<a name="activemodel-like-behaviour" class="anchor" href="#activemodel-like-behaviour"><span class="octicon octicon-link"></span></a>ActiveModel like behaviour</h4>
+
+<p>Usually when writing a rails app you want some objects to behave like ActiveModel objects (for an easy form validation for example). You can do it using Id by including Id::Form module. After initialization you get the access to ActiveModel like object, by calling #as_form method </p>
+
+<pre><code>class Unicorn
+  include Id::Model
+  include Id::Form
+
+  field :horn
+
+  #This is how you get access to ActiveModel class methods
+  form do
+    validates_presence_of :horn, :message =&gt; "Thou no unicorn!"
+  end
+end
+
+unicorn = Unicorn.new
+unicorn.valid? # =&gt; false
+unicorn.errros.full_messages # =&gt; ["Horn Thou no unicorn!"]
+
+brown_unicorn = Unicorn.new(horn: "brown")
+brown_unicorn.valid? # =&gt; true
+brown_unicorn.as_form.persisted? # =&gt; false
+</code></pre>
+
+<h4>
 <a name="designed-for-immutability" class="anchor" href="#designed-for-immutability"><span class="octicon octicon-link"></span></a>Designed for immutability</h4>
 
 <p><code>id</code> models provide accessor methods, but no mutator methods, because they are designed for immutability. How do immutable models work? When you need to change some field of a model object, a new copy of the object is created with the field changed as required. This is handled for you by <code>id</code>'s <code>set</code> method:</p>
