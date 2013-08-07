@@ -275,44 +275,6 @@ earth.satellites.first.name # =&gt; "sputnik 1"
 earth.moons.first.class # =&gt; Satellite
 earth.moons.first.name # =&gt; "moon" 
 </code></pre>
-
-<h4>
-<a name="builder" class="anchor" href="#builder"><span class="octicon octicon-link"></span></a>builder</h4>
-
-<p>models can be built using a builder</p>
-
-<p>Example:</p>
-
-<pre><code>class Sun
-  include Id::Model
-
-  field :color
-end
-
-class Moon
-  include Id::Model
-
-  field :color
-end
-
-class Planet
-  include Id::Model
-
-  field :name
-  has_many :moons
-  has_one :star
-end
-
-sun = Sun.builder.color("yellow").build
-sun.color # =&gt; "yellow"
-sun.class # =&gt; Sun
-
-moon = Moon.builder.color("grey").build
-earth = Planet.builder.star(sun).moons([moon]).name("earth")
-earth.sun.color # =&gt; "yellow"
-earth.moons.first.color # =&gt; "grey"
-earth.name # =&gt; "earth"
-</code></pre>
       </section>
 
       <footer>
