@@ -14,9 +14,11 @@ Gem::Specification.new do |s|
   s.add_dependency "optional"
   s.add_dependency "money"
   s.add_dependency "activesupport"
-  s.add_dependency "activemodel"
+  s.add_dependency "i18n"
+  s.add_dependency "json"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "simplecov"
+  s.add_development_dependency "rake", "~> 10.5.0"
 
 end

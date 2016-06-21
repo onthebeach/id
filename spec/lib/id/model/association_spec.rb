@@ -11,7 +11,7 @@ describe Id::Model::Association do
     end
   end
 
-  let (:model) { stub(:name => "Foo::Bar::Baz::Quux") }
+  let (:model) { double(:name => "Foo::Bar::Baz::Quux") }
   let (:has_one) { Id::Model::Association.new(model, "yak", {}) }
 
   describe "hierarchy" do

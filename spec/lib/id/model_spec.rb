@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'date'
 
 class OptionalModel
   include Id::Model
@@ -64,7 +65,7 @@ describe Id::Model do
     end
 
     it 'allows default values' do
-      model.quux.should be_false
+      model.quux.should be(false)
     end
 
     describe "optional flag" do
@@ -149,8 +150,8 @@ describe Id::Model do
   describe "#fields are present methods" do
     it 'allows you to check if fields are present' do
       model = TestModel.new(:foo => 1)
-      model.foo?.should be_true
-      model.bar?.should be_false
+      model.foo?.should be(true)
+      model.bar?.should be(false)
     end
   end
 
@@ -186,7 +187,7 @@ describe Id::Model do
 
   describe "#to_proc" do
     it 'eta expands the model class into its constructor' do
-      [{},{}].map(&TestModel).all? { |m| m.is_a? TestModel }.should be_true
+      [{},{}].map(&TestModel).all? { |m| m.is_a? TestModel }.should be(true)
     end
   end
 
