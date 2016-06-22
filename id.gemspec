@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'id'
-  s.version       = '0.0.11'
+  s.version       = '2.0.0'
   s.date          = '2013-03-28'
   s.summary       = "Simple models based on hashes"
   s.description   = "Developed at On The Beach Ltd. Contact russell.dunphy@onthebeach.co.uk"
@@ -14,9 +14,11 @@ Gem::Specification.new do |s|
   s.add_dependency "optional"
   s.add_dependency "money"
   s.add_dependency "activesupport"
-  s.add_dependency "activemodel"
+  s.add_dependency "i18n"
+  s.add_dependency "json"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "simplecov"
+  s.add_development_dependency "rake", "~> 10.5.0"
 
 end
